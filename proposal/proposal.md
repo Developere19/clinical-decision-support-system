@@ -24,7 +24,7 @@ The application will be an educational prototype rather than a clinically valida
 
 ### 3. Proposed AI Approach
 
-The project will use knowledge-driven artificial intelligence, focusing on rule-based reasoning, knowledge representation and forward chaining.
+The project will use knowledge-driven artificial intelligence, focusing on rule-based reasoning, knowledge representation, forward chaining and Bayesian reasoning under uncertainty.
 
 **Knowledge Representation**
 
@@ -57,7 +57,7 @@ Where multiple rules match, the system will display the relevant possible catego
 
 ### 4. System Design
 
-The system will be implemented in Python using a modular architecture consisting of four main components.
+The system will be implemented in Python using a modular architecture consisting of five main components.
 
 **1. User Interface**
 
@@ -81,7 +81,7 @@ The system will display possible illness categories, the symptoms responsible fo
 
 The project will follow an AIMA-inspired design approach. The state will represent the user's selected symptoms and derived facts. Actions will involve applying applicable inference rules. The goal condition will be reached when no further conclusions can be derived from the available rules.
 
-The system will be evaluated using fictional test cases covering successful matches, overlapping symptoms, missing information and cases where no rule applies. Automated tests will check whether the expected rules and conclusions are produced.
+The system will be evaluated using fictional test cases covering successful matches, overlapping symptoms, missing information and cases where no rule applies.
 
 ### 5. Planned Contributions
 
