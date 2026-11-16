@@ -89,8 +89,8 @@ The project will be developed collaboratively, with responsibilities allocated a
 
 | Team Member | Planned Responsibilities |
 |---|---|
-| Hamza Zeeshan | GitHub repository management, knowledge base development, IF–THEN rule representation, and system integration |
-| Mohammed Younis | Forward-chaining inference engine, Python user interface, and automated testing |
+| Hamza Zeeshan | GitHub repository management, knowledge base development, IF–THEN rule representation, forward-chaining inference engine, and system integration. |
+| Mohammed Younis | Bayesian reasoning module, Python user interface, explanation mechanism, and testing. |
 
 
 All group members will contribute to the system design, testing, documentation and final presentation.
