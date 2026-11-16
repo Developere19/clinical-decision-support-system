@@ -45,6 +45,10 @@ An inference engine will compare the symptoms entered by the user against the ru
 
 The system will use forward chaining, starting with known facts provided by the user and applying matching rules to derive conclusions. This allows the application to demonstrate how an AI system moves from input information to a reasoned output.
 
+**Bayesian Reasoning**
+
+The system will also explore reasoning under uncertainty using Bayes' theorem. It will use illustrative prior probabilities and symptom likelihoods to update estimates for possible illness categories. This will allow us to compare probabilistic reasoning with rule-based reasoning and demonstrate how additional evidence can influence conclusions.
+
 **Explanation Mechanism**
 
 The system will display which rules were activated and which symptoms contributed to each conclusion. This will make its reasoning transparent and understandable.
