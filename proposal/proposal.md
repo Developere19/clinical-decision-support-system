@@ -71,7 +71,11 @@ The knowledge base will contain structured IF–THEN rules representing relation
 
 The inference engine will evaluate the user's symptoms against the knowledge base using forward chaining. It will identify satisfied rules, record the reasoning process and handle cases where multiple or no rules match.
 
-**4. Results and Explanation Module**
+**4. Bayesian Reasoning Module**
+
+The Bayesian reasoning module will use Bayes' theorem to estimate probabilities for possible illness categories based on selected symptoms. It will use predefined illustrative probabilities and demonstrate how additional symptoms can influence the results.
+
+**5. Results and Explanation Module**
 
 The system will display possible illness categories, the symptoms responsible for each match and an explanation of the activated rules. It will also clearly communicate that the output is not a medical diagnosis.
 
@@ -86,7 +90,7 @@ The project will be developed collaboratively, with responsibilities allocated a
 | Team Member | Planned Responsibilities |
 |---|---|
 | Hamza Zeeshan | GitHub repository management, knowledge base development, IF–THEN rule representation, and system integration |
-| Mohammed Younis | Forward-chaining inference engine, Python command-line interface, and automated testing |
+| Mohammed Younis | Forward-chaining inference engine, Python user interface, and automated testing |
 
 
 All group members will contribute to the system design, testing, documentation and final presentation.
