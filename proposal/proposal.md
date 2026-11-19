@@ -1,8 +1,12 @@
 # Clinical Decision Support System (CDSS)
-## AINL3001 – Knowledge-Driven Artificial Intelligence
+
+## AINL3001 - Knowledge-Driven Artificial Intelligence
+
 **TU Dublin | BSc Data Science and Artificial Intelligence**
 
-### 1. Team Information
+Revised following proposal feedback to clarify project scope, reasoning complexity, Bayesian integration and evaluation.
+
+## 1. Team Information
 
 **Group Name:** Group A
 
@@ -11,86 +15,86 @@
 | Hamza Zeeshan | C24333116 | Developere19 |
 | Mohammed Younis | C24372973 | Mohammedyounis18 |
 
+## 2. Problem Description
 
-### 2. Problem Description
+Many illnesses share similar symptoms, making it difficult to distinguish possible illness patterns from symptoms alone. Fever, cough and fatigue, for example, can occur across several respiratory illnesses. Users may also provide incomplete information, and some symptom combinations may fit more than one category.
 
-Identifying possible illnesses based on symptoms can be challenging because many common medical conditions share similar symptoms. For example, fever, cough and fatigue may occur in several respiratory illnesses. This makes it difficult to distinguish between conditions using symptoms alone.
+Our project will develop an educational Clinical Decision Support System in Python. Users will enter symptoms through a simple command-line interface. The system will use rule-based reasoning to identify possible illness categories and Bayesian reasoning to rank selected overlapping respiratory categories while explaining how its conclusions were reached.
 
-Our project aims to develop a rule-based Clinical Decision Support System (CDSS) using Python. The system will allow users to select symptoms through a command-line interface and receive information about possible common illness categories based on predefined rules.
+The knowledge base will contain approximately six illness categories, 18-20 symptoms, 8-10 intermediate concepts and 35-45 IF-THEN rules. Planned categories include influenza-like, COVID-like, common cold-like, allergy-like, strep-throat-like and gastroenteritis-like illness.
 
-The system will focus on a limited selection of common illnesses, such as influenza-like illness, common cold-like illness and other respiratory symptom patterns. Its purpose is to demonstrate how artificial intelligence can represent medical knowledge and apply logical reasoning to support decision-making.
+The system is for educational demonstration only. It will not diagnose conditions, prescribe medication or replace professional medical advice. All evaluation cases will be fictional.
 
-The application will be an educational prototype rather than a clinically validated diagnostic tool. It will not provide definitive diagnoses, prescribe medication or replace professional medical advice. The system will use fictional patient examples for development and testing.
+## 3. Proposed AI Approach
 
-### 3. Proposed AI Approach
+The project will combine knowledge representation, rule-based reasoning, forward chaining and Bayesian reasoning under uncertainty.
 
-The project will use knowledge-driven artificial intelligence, focusing on rule-based reasoning, knowledge representation, forward chaining and Bayesian reasoning under uncertainty.
+### Knowledge Representation
 
-**Knowledge Representation**
+Symptoms and derived concepts will be represented as facts. Medical relationships will be stored as structured IF-THEN rules separately from the main program logic.
 
-Medical knowledge will be represented using IF–THEN rules stored in Python data structures. Each rule will describe a relationship between a combination of symptoms and a possible illness category.
+The knowledge base will support multi-stage reasoning rather than only direct symptom matching. For example:
 
-For example:
+- IF fever AND body aches THEN systemic symptoms.
+- IF cough AND sore throat THEN respiratory symptoms.
+- IF systemic symptoms AND respiratory symptoms THEN influenza-like illness.
 
-- IF fever AND cough AND fatigue are present, THEN identify a flu-like symptom pattern.
-- IF sneezing AND runny nose are present, THEN identify a common cold-like symptom pattern.
+This allows one rule to derive a fact that can activate another rule.
 
-These initial examples are illustrative. The final rules will be reviewed against credible medical information sources and documented within the project.
+Negative information will only be used when the user explicitly reports that a symptom is absent. Unreported symptoms will remain unknown.
 
-**Rule-Based Reasoning**
+### Forward-Chaining Inference
 
-An inference engine will compare the symptoms entered by the user against the rules stored in the knowledge base. When the conditions of a rule are satisfied, the system will generate a corresponding conclusion.
+The inference engine will start with reported symptoms as known facts and repeatedly apply rules whose conditions are satisfied.
 
-**Forward Chaining**
+New conclusions will be added to the knowledge state until no further facts can be derived. The engine will also record which rules fired and which intermediate facts were produced, allowing the reasoning process to be explained.
 
-The system will use forward chaining, starting with known facts provided by the user and applying matching rules to derive conclusions. This allows the application to demonstrate how an AI system moves from input information to a reasoned output.
+### Bayesian Reasoning
 
-**Bayesian Reasoning**
+Bayesian reasoning will be applied to three overlapping respiratory categories: influenza-like illness, COVID-like illness and common cold-like illness.
 
-The system will also explore reasoning under uncertainty using Bayes' theorem. It will use illustrative prior probabilities and symptom likelihoods to update estimates for possible illness categories. This will allow us to compare probabilistic reasoning with rule-based reasoning and demonstrate how additional evidence can influence conclusions.
+The Bayesian module will use predefined prior probabilities and symptom likelihoods to demonstrate how evidence changes the relative likelihood of each category. Probabilities will be documented and identified as educational values where illustrative.
 
-**Explanation Mechanism**
+The rule-based and Bayesian components will be integrated:
 
-The system will display which rules were activated and which symptoms contributed to each conclusion. This will make its reasoning transparent and understandable.
+**User symptoms → Forward chaining → Candidate categories → Bayesian ranking → Explanation**
 
-Where multiple rules match, the system will display the relevant possible categories rather than assume that one condition has been confirmed.
+Forward chaining will identify possible categories and derived facts. When overlapping respiratory categories are identified, the Bayesian module will rank those candidates using the available evidence.
 
-### 4. System Design
+## 4. System Design
 
-The system will be implemented in Python using a modular architecture consisting of five main components.
+The system will use a modular Python architecture with five main components:
 
-**1. User Interface**
+1. **User Interface** - collects and validates symptoms.
+2. **Knowledge Base** - stores symptoms, intermediate concepts and IF-THEN rules.
+3. **Forward-Chaining Engine** - derives new facts and candidate illness categories.
+4. **Bayesian Module** - ranks selected overlapping respiratory categories.
+5. **Integration and Explanation Module** - combines and explains the results.
 
-A command-line interface will allow users to select symptoms from a predefined list. Input validation will prevent unsupported selections and handle missing information.
+The system will follow an AIMA-inspired structure. The state is the set of known and derived facts. An action is the application of an applicable rule. A transition occurs when a rule conclusion is added to the knowledge state. Reasoning stops when no rule can derive a new fact.
 
-**2. Knowledge Base**
+## 5. Evaluation Plan
 
-The knowledge base will contain structured IF–THEN rules representing relationships between symptoms and possible illness categories. The rules will be stored separately from the main program logic to support future updates.
+The system will be evaluated using approximately 18 fictional test cases covering:
 
-**3. Inference Engine**
+- clear illness-category matches;
+- overlapping respiratory symptoms;
+- incomplete information;
+- multiple possible categories;
+- cases where no rule applies;
+- multi-step forward chaining.
 
-The inference engine will evaluate the user's symptoms against the knowledge base using forward chaining. It will identify satisfied rules, record the reasoning process and handle cases where multiple or no rules match.
+Relevant respiratory cases will be compared using rule-based reasoning, Bayesian reasoning and the combined system.
 
-**4. Bayesian Reasoning Module**
+Automated `pytest` tests will verify the knowledge base, chained inference, expected conclusions, Bayesian calculations and integration between the reasoning components.
 
-The Bayesian reasoning module will use Bayes' theorem to estimate probabilities for possible illness categories based on selected symptoms. It will use predefined illustrative probabilities and demonstrate how additional symptoms can influence the results.
+The evaluation will compare expected and actual outputs and discuss limitations, including the simplified educational nature of the rules and probabilities.
 
-**5. Results and Explanation Module**
-
-The system will display possible illness categories, the symptoms responsible for each match and an explanation of the activated rules. It will also clearly communicate that the output is not a medical diagnosis.
-
-The project will follow an AIMA-inspired design approach. The state will represent the user's selected symptoms and derived facts. Actions will involve applying applicable inference rules. The goal condition will be reached when no further conclusions can be derived from the available rules.
-
-The system will be evaluated using fictional test cases covering successful matches, overlapping symptoms, missing information and cases where no rule applies.
-
-### 5. Planned Contributions
-
-The project will be developed collaboratively, with responsibilities allocated among group members.
+## 6. Planned Contributions
 
 | Team Member | Planned Responsibilities |
 |---|---|
-| Hamza Zeeshan | GitHub repository management, knowledge base development, IF–THEN rule representation, forward-chaining inference engine, and system integration. |
-| Mohammed Younis | Bayesian reasoning module, Python user interface, explanation mechanism, and testing. |
+| Hamza Zeeshan | GitHub repository management, knowledge-base development, IF-THEN rule representation, forward-chaining inference engine and system integration |
+| Mohammed Younis | Bayesian reasoning module, command-line interface, explanation mechanism, evaluation and testing |
 
-
-All group members will contribute to the system design, testing, documentation and final presentation.
+Both team members will contribute to system design, documentation, evaluation and the final presentation.
