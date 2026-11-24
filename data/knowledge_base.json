@@ -5,19 +5,24 @@
     "cough",
     "sore_throat",
     "runny_nose",
-    "sneezing"
+    "sneezing",
+    "loss_of_smell",
+    "shortness_of_breath"
   ],
 
   "intermediate_concepts": [
     "systemic_symptoms",
     "respiratory_symptoms",
     "nasal_symptoms",
-    "upper_respiratory_symptoms"
+    "upper_respiratory_symptoms",
+    "viral_respiratory_symptoms",
+    "covid_pattern"
   ],
 
   "illness_categories": [
     "influenza_like",
-    "common_cold_like"
+    "common_cold_like",
+    "covid_like"
   ],
 
   "rules": [
@@ -67,6 +72,29 @@
         "upper_respiratory_symptoms"
       ],
       "conclusion": "common_cold_like"
+    },
+    {
+      "id": "R7",
+      "conditions": [
+        "cough",
+        "fever"
+      ],
+      "conclusion": "viral_respiratory_symptoms"
+    },
+    {
+      "id": "R8",
+      "conditions": [
+        "viral_respiratory_symptoms",
+        "loss_of_smell"
+      ],
+      "conclusion": "covid_pattern"
+    },
+    {
+      "id": "R9",
+      "conditions": [
+        "covid_pattern"
+      ],
+      "conclusion": "covid_like"
     }
   ]
 }

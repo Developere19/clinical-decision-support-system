@@ -28,10 +28,9 @@ if __name__ == "__main__":
     knowledge_base = load_knowledge_base()
 
     initial_facts = {
-        "fever",
-        "body_aches",
-        "cough",
-        "sore_throat"
+    "runny_nose",
+    "sneezing",
+    "sore_throat"
     }
 
     known_facts, fired_rules = forward_chaining(
