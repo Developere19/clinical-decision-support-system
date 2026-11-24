@@ -7,7 +7,9 @@
     "runny_nose",
     "sneezing",
     "loss_of_smell",
-    "shortness_of_breath"
+    "shortness_of_breath",
+    "itchy_nose",
+    "itchy_watery_eyes"
   ],
 
   "intermediate_concepts": [
@@ -16,13 +18,16 @@
     "nasal_symptoms",
     "upper_respiratory_symptoms",
     "viral_respiratory_symptoms",
-    "covid_pattern"
+    "covid_pattern",
+    "allergic_nasal_symptoms",
+    "allergic_rhinitis_pattern"
   ],
 
   "illness_categories": [
     "influenza_like",
     "common_cold_like",
-    "covid_like"
+    "covid_like",
+    "allergy_like"
   ],
 
   "rules": [
@@ -95,6 +100,37 @@
         "covid_pattern"
       ],
       "conclusion": "covid_like"
+    },
+    {
+      "id": "R10",
+      "conditions": [
+        "itchy_nose",
+        "sneezing"
+      ],
+      "conclusion": "allergic_nasal_symptoms"
+    },
+    {
+      "id": "R11",
+      "conditions": [
+        "allergic_nasal_symptoms",
+        "runny_nose"
+      ],
+      "conclusion": "allergic_rhinitis_pattern"
+    },
+    {
+      "id": "R12",
+      "conditions": [
+        "allergic_rhinitis_pattern"
+      ],
+      "conclusion": "allergy_like"
+    },
+    {
+      "id": "R13",
+      "conditions": [
+        "itchy_watery_eyes",
+        "allergic_nasal_symptoms"
+      ],
+      "conclusion": "allergy_like"
     }
   ]
 }
