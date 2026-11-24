@@ -3,16 +3,21 @@
     "fever",
     "body_aches",
     "cough",
-    "sore_throat"
+    "sore_throat",
+    "runny_nose",
+    "sneezing"
   ],
 
   "intermediate_concepts": [
     "systemic_symptoms",
-    "respiratory_symptoms"
+    "respiratory_symptoms",
+    "nasal_symptoms",
+    "upper_respiratory_symptoms"
   ],
 
   "illness_categories": [
-    "influenza_like"
+    "influenza_like",
+    "common_cold_like"
   ],
 
   "rules": [
@@ -39,6 +44,29 @@
         "respiratory_symptoms"
       ],
       "conclusion": "influenza_like"
+    },
+    {
+      "id": "R4",
+      "conditions": [
+        "runny_nose",
+        "sneezing"
+      ],
+      "conclusion": "nasal_symptoms"
+    },
+    {
+      "id": "R5",
+      "conditions": [
+        "nasal_symptoms",
+        "sore_throat"
+      ],
+      "conclusion": "upper_respiratory_symptoms"
+    },
+    {
+      "id": "R6",
+      "conditions": [
+        "upper_respiratory_symptoms"
+      ],
+      "conclusion": "common_cold_like"
     }
   ]
 }
