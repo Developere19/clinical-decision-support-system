@@ -9,7 +9,9 @@
     "loss_of_smell",
     "shortness_of_breath",
     "itchy_nose",
-    "itchy_watery_eyes"
+    "itchy_watery_eyes",
+    "swollen_neck_glands",
+    "tonsil_exudate"
   ],
 
   "intermediate_concepts": [
@@ -20,14 +22,17 @@
     "viral_respiratory_symptoms",
     "covid_pattern",
     "allergic_nasal_symptoms",
-    "allergic_rhinitis_pattern"
+    "allergic_rhinitis_pattern",
+    "acute_throat_pattern",
+    "strep_supporting_features"
   ],
 
   "illness_categories": [
     "influenza_like",
     "common_cold_like",
     "covid_like",
-    "allergy_like"
+    "allergy_like",
+    "strep_throat_like"
   ],
 
   "rules": [
@@ -131,6 +136,30 @@
         "allergic_nasal_symptoms"
       ],
       "conclusion": "allergy_like"
+    },
+    {
+      "id": "R14",
+      "conditions": [
+        "sore_throat",
+        "fever"
+      ],
+      "conclusion": "acute_throat_pattern"
+    },
+    {
+      "id": "R15",
+      "conditions": [
+        "swollen_neck_glands",
+        "tonsil_exudate"
+      ],
+      "conclusion": "strep_supporting_features"
+    },
+    {
+      "id": "R16",
+      "conditions": [
+        "acute_throat_pattern",
+        "strep_supporting_features"
+      ],
+      "conclusion": "strep_throat_like"
     }
   ]
 }
