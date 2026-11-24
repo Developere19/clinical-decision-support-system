@@ -1,0 +1,44 @@
+{
+  "symptoms": [
+    "fever",
+    "body_aches",
+    "cough",
+    "sore_throat"
+  ],
+
+  "intermediate_concepts": [
+    "systemic_symptoms",
+    "respiratory_symptoms"
+  ],
+
+  "illness_categories": [
+    "influenza_like"
+  ],
+
+  "rules": [
+    {
+      "id": "R1",
+      "conditions": [
+        "fever",
+        "body_aches"
+      ],
+      "conclusion": "systemic_symptoms"
+    },
+    {
+      "id": "R2",
+      "conditions": [
+        "cough",
+        "sore_throat"
+      ],
+      "conclusion": "respiratory_symptoms"
+    },
+    {
+      "id": "R3",
+      "conditions": [
+        "systemic_symptoms",
+        "respiratory_symptoms"
+      ],
+      "conclusion": "influenza_like"
+    }
+  ]
+}
