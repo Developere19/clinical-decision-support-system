@@ -166,6 +166,9 @@
         "acute_throat_pattern",
         "strep_supporting_features"
       ],
+      "absent_conditions": [
+        "cough"
+      ],
       "conclusion": "strep_throat_like"
     },
     {

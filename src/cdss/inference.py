@@ -1,18 +1,30 @@
 from knowledge_base import load_knowledge_base
 
 
-def forward_chaining(initial_facts, rules):
-    known_facts = set(initial_facts)
+def forward_chaining(present_facts, absent_facts, rules):
+    known_facts = set(present_facts)
+    absent_facts = set(absent_facts)
     fired_rules = []
 
     while True:
         new_fact_added = False
 
         for rule in rules:
-            conditions = rule["conditions"]
+            conditions = rule.get("conditions", [])
+            absent_conditions = rule.get("absent_conditions", [])
             conclusion = rule["conclusion"]
 
-            if all(condition in known_facts for condition in conditions):
+            positive_conditions_met = all(
+                condition in known_facts
+                for condition in conditions
+            )
+
+            negative_conditions_met = all(
+                condition in absent_facts
+                for condition in absent_conditions
+            )
+
+            if positive_conditions_met and negative_conditions_met:
                 if conclusion not in known_facts:
                     known_facts.add(conclusion)
                     fired_rules.append(rule["id"])
@@ -27,17 +39,25 @@ def forward_chaining(initial_facts, rules):
 if __name__ == "__main__":
     knowledge_base = load_knowledge_base()
 
-    initial_facts = {
-    "runny_nose",
-    "sneezing",
-    "sore_throat"
+    present_facts = {
+    "sore_throat",
+    "fever",
+    "swollen_neck_glands",
+    "tonsil_exudate"
     }
 
+    absent_facts = {
+        "cough"
+        }
+
+
     known_facts, fired_rules = forward_chaining(
-        initial_facts,
+        present_facts,
+        absent_facts,
         knowledge_base["rules"]
     )
 
-    print("Initial facts:", sorted(initial_facts))
+    print("Present facts:", sorted(present_facts))
+    print("Absent facts:", sorted(absent_facts))
     print("Final known facts:", sorted(known_facts))
     print("Rules fired:", fired_rules)
