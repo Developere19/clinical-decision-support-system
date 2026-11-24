@@ -11,7 +11,11 @@
     "itchy_nose",
     "itchy_watery_eyes",
     "swollen_neck_glands",
-    "tonsil_exudate"
+    "tonsil_exudate",
+    "vomiting",
+    "diarrhoea",
+    "nausea",
+    "stomach_cramps"
   ],
 
   "intermediate_concepts": [
@@ -24,7 +28,9 @@
     "allergic_nasal_symptoms",
     "allergic_rhinitis_pattern",
     "acute_throat_pattern",
-    "strep_supporting_features"
+    "strep_supporting_features",
+    "gastrointestinal_symptoms",
+    "gastroenteritis_pattern"
   ],
 
   "illness_categories": [
@@ -32,7 +38,8 @@
     "common_cold_like",
     "covid_like",
     "allergy_like",
-    "strep_throat_like"
+    "strep_throat_like",
+    "gastroenteritis_like"
   ],
 
   "rules": [
@@ -160,6 +167,37 @@
         "strep_supporting_features"
       ],
       "conclusion": "strep_throat_like"
+    },
+    {
+      "id": "R17",
+      "conditions": [
+        "vomiting",
+        "diarrhoea"
+      ],
+      "conclusion": "gastrointestinal_symptoms"
+    },
+    {
+      "id": "R18",
+      "conditions": [
+        "gastrointestinal_symptoms",
+        "stomach_cramps"
+      ],
+      "conclusion": "gastroenteritis_pattern"
+    },
+    {
+      "id": "R19",
+      "conditions": [
+        "gastroenteritis_pattern"
+      ],
+      "conclusion": "gastroenteritis_like"
+    },
+    {
+      "id": "R20",
+      "conditions": [
+        "gastrointestinal_symptoms",
+        "nausea"
+      ],
+      "conclusion": "gastroenteritis_like"
     }
   ]
 }
