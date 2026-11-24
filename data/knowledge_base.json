@@ -1,177 +1,328 @@
 {
-  "symptoms": [
-    "fever",
-    "body_aches",
-    "cough",
-    "sore_throat",
-    "runny_nose",
-    "sneezing",
-    "loss_of_smell",
-    "shortness_of_breath",
-    "itchy_nose",
-    "itchy_watery_eyes",
-    "swollen_neck_glands",
-    "tonsil_exudate",
-    "vomiting",
-    "diarrhoea",
-    "nausea",
-    "stomach_cramps",
-    "fatigue",
-    "headache",
-    "blocked_nose",
-    "chills"
-  ],
-
-  "intermediate_concepts": [
-    "systemic_symptoms",
-    "respiratory_symptoms",
-    "nasal_symptoms",
-    "upper_respiratory_symptoms",
-    "viral_respiratory_symptoms",
-    "covid_pattern",
-    "allergic_nasal_symptoms",
-    "allergic_rhinitis_pattern",
-    "acute_throat_pattern",
-    "strep_supporting_features",
-    "gastrointestinal_symptoms",
-    "gastroenteritis_pattern"
-  ],
-
-  "illness_categories": [
-    "influenza_like",
-    "common_cold_like",
-    "covid_like",
-    "allergy_like",
-    "strep_throat_like",
-    "gastroenteritis_like"
-  ],
-
-  "rules": [
-    {
-      "id": "R1",
-      "conditions": ["fever", "body_aches"],
-      "conclusion": "systemic_symptoms"
-    },
-    {
-      "id": "R2",
-      "conditions": ["cough", "sore_throat"],
-      "conclusion": "respiratory_symptoms"
-    },
-    {
-      "id": "R3",
-      "conditions": ["systemic_symptoms", "respiratory_symptoms"],
-      "conclusion": "influenza_like"
-    },
-    {
-      "id": "R4",
-      "conditions": ["runny_nose", "sneezing"],
-      "conclusion": "nasal_symptoms"
-    },
-    {
-      "id": "R5",
-      "conditions": ["nasal_symptoms", "sore_throat"],
-      "conclusion": "upper_respiratory_symptoms"
-    },
-    {
-      "id": "R6",
-      "conditions": ["upper_respiratory_symptoms"],
-      "conclusion": "common_cold_like"
-    },
-    {
-      "id": "R7",
-      "conditions": ["cough", "fever"],
-      "conclusion": "viral_respiratory_symptoms"
-    },
-    {
-      "id": "R8",
-      "conditions": ["viral_respiratory_symptoms", "loss_of_smell"],
-      "conclusion": "covid_pattern"
-    },
-    {
-      "id": "R9",
-      "conditions": ["covid_pattern"],
-      "conclusion": "covid_like"
-    },
-    {
-      "id": "R10",
-      "conditions": ["itchy_nose", "sneezing"],
-      "conclusion": "allergic_nasal_symptoms"
-    },
-    {
-      "id": "R11",
-      "conditions": ["allergic_nasal_symptoms", "runny_nose"],
-      "conclusion": "allergic_rhinitis_pattern"
-    },
-    {
-      "id": "R12",
-      "conditions": ["allergic_rhinitis_pattern"],
-      "conclusion": "allergy_like"
-    },
-    {
-      "id": "R13",
-      "conditions": ["itchy_watery_eyes", "allergic_nasal_symptoms"],
-      "conclusion": "allergy_like"
-    },
-    {
-      "id": "R14",
-      "conditions": ["sore_throat", "fever"],
-      "conclusion": "acute_throat_pattern"
-    },
-    {
-      "id": "R15",
-      "conditions": ["swollen_neck_glands", "tonsil_exudate"],
-      "conclusion": "strep_supporting_features"
-    },
-    {
-      "id": "R16",
-      "conditions": ["acute_throat_pattern", "strep_supporting_features"],
-      "absent_conditions": ["cough"],
-      "conclusion": "strep_throat_like"
-    },
-    {
-      "id": "R17",
-      "conditions": ["vomiting", "diarrhoea"],
-      "conclusion": "gastrointestinal_symptoms"
-    },
-    {
-      "id": "R18",
-      "conditions": ["gastrointestinal_symptoms", "stomach_cramps"],
-      "conclusion": "gastroenteritis_pattern"
-    },
-    {
-      "id": "R19",
-      "conditions": ["gastroenteritis_pattern"],
-      "conclusion": "gastroenteritis_like"
-    },
-    {
-      "id": "R20",
-      "conditions": ["gastrointestinal_symptoms", "nausea"],
-      "conclusion": "gastroenteritis_like"
-    },
-    {
-      "id": "R21",
-      "conditions": ["fever", "fatigue"],
-      "conclusion": "systemic_symptoms"
-    },
-    {
-      "id": "R22",
-      "conditions": ["headache", "body_aches"],
-      "conclusion": "systemic_symptoms"
-    },
-    {
-      "id": "R23",
-      "conditions": ["fever", "chills"],
-      "conclusion": "systemic_symptoms"
-    },
-    {
-      "id": "R24",
-      "conditions": ["blocked_nose", "sneezing"],
-      "conclusion": "nasal_symptoms"
-    },
-    {
-      "id": "R25",
-      "conditions": ["runny_nose", "sore_throat"],
-      "conclusion": "upper_respiratory_symptoms"
-    }
-  ]
+    "symptoms": [
+        "fever",
+        "body_aches",
+        "cough",
+        "sore_throat",
+        "runny_nose",
+        "sneezing",
+        "loss_of_smell",
+        "shortness_of_breath",
+        "itchy_nose",
+        "itchy_watery_eyes",
+        "swollen_neck_glands",
+        "tonsil_exudate",
+        "vomiting",
+        "diarrhoea",
+        "nausea",
+        "stomach_cramps",
+        "fatigue",
+        "headache",
+        "blocked_nose",
+        "chills"
+    ],
+    "intermediate_concepts": [
+        "systemic_symptoms",
+        "respiratory_symptoms",
+        "nasal_symptoms",
+        "upper_respiratory_symptoms",
+        "viral_respiratory_symptoms",
+        "covid_pattern",
+        "allergic_nasal_symptoms",
+        "allergic_rhinitis_pattern",
+        "acute_throat_pattern",
+        "strep_supporting_features",
+        "gastrointestinal_symptoms",
+        "gastroenteritis_pattern",
+        "covid_supporting_features"
+    ],
+    "illness_categories": [
+        "influenza_like",
+        "common_cold_like",
+        "covid_like",
+        "allergy_like",
+        "strep_throat_like",
+        "gastroenteritis_like"
+    ],
+    "rules": [
+        {
+            "id": "R1",
+            "conditions": [
+                "fever",
+                "body_aches"
+            ],
+            "conclusion": "systemic_symptoms"
+        },
+        {
+            "id": "R2",
+            "conditions": [
+                "cough",
+                "sore_throat"
+            ],
+            "conclusion": "respiratory_symptoms"
+        },
+        {
+            "id": "R3",
+            "conditions": [
+                "systemic_symptoms",
+                "respiratory_symptoms"
+            ],
+            "conclusion": "influenza_like"
+        },
+        {
+            "id": "R4",
+            "conditions": [
+                "runny_nose",
+                "sneezing"
+            ],
+            "conclusion": "nasal_symptoms"
+        },
+        {
+            "id": "R5",
+            "conditions": [
+                "nasal_symptoms",
+                "sore_throat"
+            ],
+            "conclusion": "upper_respiratory_symptoms"
+        },
+        {
+            "id": "R6",
+            "conditions": [
+                "upper_respiratory_symptoms"
+            ],
+            "conclusion": "common_cold_like"
+        },
+        {
+            "id": "R7",
+            "conditions": [
+                "cough",
+                "fever"
+            ],
+            "conclusion": "viral_respiratory_symptoms"
+        },
+        {
+            "id": "R8",
+            "conditions": [
+                "viral_respiratory_symptoms",
+                "loss_of_smell"
+            ],
+            "conclusion": "covid_pattern"
+        },
+        {
+            "id": "R9",
+            "conditions": [
+                "covid_pattern"
+            ],
+            "conclusion": "covid_like"
+        },
+        {
+            "id": "R10",
+            "conditions": [
+                "itchy_nose",
+                "sneezing"
+            ],
+            "conclusion": "allergic_nasal_symptoms"
+        },
+        {
+            "id": "R11",
+            "conditions": [
+                "allergic_nasal_symptoms",
+                "runny_nose"
+            ],
+            "conclusion": "allergic_rhinitis_pattern"
+        },
+        {
+            "id": "R12",
+            "conditions": [
+                "allergic_rhinitis_pattern"
+            ],
+            "conclusion": "allergy_like"
+        },
+        {
+            "id": "R13",
+            "conditions": [
+                "itchy_watery_eyes",
+                "allergic_nasal_symptoms"
+            ],
+            "conclusion": "allergy_like"
+        },
+        {
+            "id": "R14",
+            "conditions": [
+                "sore_throat",
+                "fever"
+            ],
+            "conclusion": "acute_throat_pattern"
+        },
+        {
+            "id": "R15",
+            "conditions": [
+                "swollen_neck_glands",
+                "tonsil_exudate"
+            ],
+            "conclusion": "strep_supporting_features"
+        },
+        {
+            "id": "R16",
+            "conditions": [
+                "acute_throat_pattern",
+                "strep_supporting_features"
+            ],
+            "absent_conditions": [
+                "cough"
+            ],
+            "conclusion": "strep_throat_like"
+        },
+        {
+            "id": "R17",
+            "conditions": [
+                "vomiting",
+                "diarrhoea"
+            ],
+            "conclusion": "gastrointestinal_symptoms"
+        },
+        {
+            "id": "R18",
+            "conditions": [
+                "gastrointestinal_symptoms",
+                "stomach_cramps"
+            ],
+            "conclusion": "gastroenteritis_pattern"
+        },
+        {
+            "id": "R19",
+            "conditions": [
+                "gastroenteritis_pattern"
+            ],
+            "conclusion": "gastroenteritis_like"
+        },
+        {
+            "id": "R20",
+            "conditions": [
+                "gastrointestinal_symptoms",
+                "nausea"
+            ],
+            "conclusion": "gastroenteritis_like"
+        },
+        {
+            "id": "R21",
+            "conditions": [
+                "fever",
+                "fatigue"
+            ],
+            "conclusion": "systemic_symptoms"
+        },
+        {
+            "id": "R22",
+            "conditions": [
+                "headache",
+                "body_aches"
+            ],
+            "conclusion": "systemic_symptoms"
+        },
+        {
+            "id": "R23",
+            "conditions": [
+                "fever",
+                "chills"
+            ],
+            "conclusion": "systemic_symptoms"
+        },
+        {
+            "id": "R24",
+            "conditions": [
+                "blocked_nose",
+                "sneezing"
+            ],
+            "conclusion": "nasal_symptoms"
+        },
+        {
+            "id": "R25",
+            "conditions": [
+                "runny_nose",
+                "sore_throat"
+            ],
+            "conclusion": "upper_respiratory_symptoms"
+        },
+        {
+            "id": "R26",
+            "conditions": [
+                "cough",
+                "fatigue"
+            ],
+            "conclusion": "viral_respiratory_symptoms"
+        },
+        {
+            "id": "R27",
+            "conditions": [
+                "shortness_of_breath",
+                "loss_of_smell"
+            ],
+            "conclusion": "covid_supporting_features"
+        },
+        {
+            "id": "R28",
+            "conditions": [
+                "viral_respiratory_symptoms",
+                "covid_supporting_features"
+            ],
+            "conclusion": "covid_pattern"
+        },
+        {
+            "id": "R29",
+            "conditions": [
+                "blocked_nose",
+                "itchy_nose"
+            ],
+            "conclusion": "allergic_nasal_symptoms"
+        },
+        {
+            "id": "R30",
+            "conditions": [
+                "runny_nose",
+                "itchy_watery_eyes"
+            ],
+            "conclusion": "allergic_rhinitis_pattern"
+        },
+        {
+            "id": "R31",
+            "conditions": [
+                "sore_throat",
+                "tonsil_exudate"
+            ],
+            "conclusion": "strep_supporting_features"
+        },
+        {
+            "id": "R32",
+            "conditions": [
+                "fever",
+                "swollen_neck_glands"
+            ],
+            "conclusion": "strep_supporting_features"
+        },
+        {
+            "id": "R33",
+            "conditions": [
+                "vomiting",
+                "nausea"
+            ],
+            "conclusion": "gastrointestinal_symptoms"
+        },
+        {
+            "id": "R34",
+            "conditions": [
+                "diarrhoea",
+                "stomach_cramps"
+            ],
+            "conclusion": "gastroenteritis_pattern"
+        },
+        {
+            "id": "R35",
+            "conditions": [
+                "vomiting",
+                "stomach_cramps"
+            ],
+            "conclusion": "gastroenteritis_pattern"
+        }
+    ]
 }

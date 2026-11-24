@@ -40,16 +40,11 @@ if __name__ == "__main__":
     knowledge_base = load_knowledge_base()
 
     present_facts = {
-    "sore_throat",
-    "fever",
-    "swollen_neck_glands",
-    "tonsil_exudate"
+        "vomiting",
+        "stomach_cramps"
     }
 
-    absent_facts = {
-        "cough"
-        }
-
+    absent_facts = set()
 
     known_facts, fired_rules = forward_chaining(
         present_facts,
