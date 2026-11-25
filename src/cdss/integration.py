@@ -1,5 +1,6 @@
 from knowledge_base import load_knowledge_base
 from inference import forward_chaining
+from explanation import explain_result
 
 
 def run_cdss(present_facts, absent_facts):
@@ -19,13 +20,22 @@ def run_cdss(present_facts, absent_facts):
         known_facts.intersection(illness_categories)
     )
 
-    return {
+    result = {
         "present_facts": sorted(present_facts),
         "absent_facts": sorted(absent_facts),
         "known_facts": sorted(known_facts),
         "fired_rules": fired_rules,
         "candidate_categories": candidate_categories
     }
+
+    explanation = explain_result(
+        result,
+        knowledge_base["rules"]
+    )
+
+    result["reasoning"] = explanation["reasoning"]
+
+    return result
 
 
 if __name__ == "__main__":
@@ -44,3 +54,8 @@ if __name__ == "__main__":
     print("Absent facts:", result["absent_facts"])
     print("Candidate categories:", result["candidate_categories"])
     print("Rules fired:", result["fired_rules"])
+
+    print("\nReasoning:")
+
+    for explanation in result["reasoning"]:
+        print("-", explanation)
