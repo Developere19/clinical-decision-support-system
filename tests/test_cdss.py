@@ -96,3 +96,58 @@ def test_gastroenteritis_like_inference():
    )
 
    assert "gastroenteritis_like" in result["candidate_categories"]
+
+def test_strep_requires_cough_absent():
+   present = {
+       "sore_throat",
+       "fever",
+       "swollen_neck_glands"
+   }
+
+   unknown_result = run_cdss(
+       present_facts=present,
+       absent_facts=set()
+   )
+
+   absent_result = run_cdss(
+       present_facts=present,
+       absent_facts={"cough"}
+   )
+
+   assert "strep_throat_like" not in unknown_result[
+       "candidate_categories"
+   ]
+
+   assert "strep_throat_like" in absent_result[
+       "candidate_categories"
+   ]
+
+
+def test_overlap_returns_multiple_candidates():
+   result = run_cdss(
+       present_facts={
+           "fever",
+           "fatigue",
+           "cough",
+           "sore_throat",
+           "loss_of_smell",
+           "runny_nose",
+           "sneezing"
+       },
+       absent_facts=set()
+   )
+
+   assert set(result["candidate_categories"]) == {
+       "common_cold_like",
+       "covid_like",
+       "influenza_like"
+   }
+
+
+def test_insufficient_information_returns_no_candidate():
+   result = run_cdss(
+       present_facts={"headache"},
+       absent_facts=set()
+   )
+
+   assert result["candidate_categories"] == []
