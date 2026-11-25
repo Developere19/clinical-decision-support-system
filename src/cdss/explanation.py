@@ -38,10 +38,14 @@ def explain_rules(fired_rules, rules):
             )
 
         if absent_conditions:
-            reasons.append(
-                f"{' and '.join(absent_conditions)} were explicitly absent"
+            if len(absent_conditions) == 1:
+                reasons.append(
+                    f"{absent_conditions[0]} was explicitly absent"
             )
-
+            else:
+                reasons.append(
+                    f"{' and '.join(absent_conditions)} were explicitly absent"
+            )
         reason_text = " and ".join(reasons)
 
         explanations.append(
