@@ -151,3 +151,27 @@ def test_insufficient_information_returns_no_candidate():
    )
 
    assert result["candidate_categories"] == []
+
+def test_explanation_contains_fired_rule_ids():
+   knowledge_base = load_knowledge_base()
+
+   explanations = explain_rules(
+       ["R14", "R32", "R16"],
+       knowledge_base["rules"]
+   )
+
+   assert len(explanations) == 3
+   assert explanations[0].startswith("R14")
+   assert explanations[1].startswith("R32")
+   assert explanations[2].startswith("R16")
+
+
+def test_explanation_handles_absent_symptom_wording():
+   knowledge_base = load_knowledge_base()
+
+   explanations = explain_rules(
+       ["R16"],
+       knowledge_base["rules"]
+   )
+
+   assert "cough was explicitly absent" in explanations[0]
