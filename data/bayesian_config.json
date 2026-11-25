@@ -1,0 +1,57 @@
+{
+  "description": "Illustrative Bayesian ranking parameters for an educational CDSS prototype. Values are modelling assumptions, not clinical probabilities.",
+
+  "methodology": {
+    "prior_type": "equal",
+    "strong_association": 0.8,
+    "moderate_association": 0.5,
+    "weak_association": 0.2
+  },
+
+  "priors": {
+    "influenza_like": 0.333333,
+    "covid_like": 0.333333,
+    "common_cold_like": 0.333333
+  },
+
+  "symptom_likelihoods": {
+    "influenza_like": {
+      "fever": 0.8,
+      "fatigue": 0.8,
+      "cough": 0.8,
+      "sore_throat": 0.5,
+      "loss_of_smell": 0.2,
+      "runny_nose": 0.2,
+      "sneezing": 0.2,
+      "blocked_nose": 0.2,
+      "headache": 0.8,
+      "body_aches": 0.8
+    },
+
+    "covid_like": {
+      "fever": 0.8,
+      "fatigue": 0.8,
+      "cough": 0.8,
+      "sore_throat": 0.5,
+      "loss_of_smell": 0.5,
+      "runny_nose": 0.5,
+      "sneezing": 0.2,
+      "blocked_nose": 0.5,
+      "headache": 0.5,
+      "body_aches": 0.5
+    },
+
+    "common_cold_like": {
+      "fever": 0.2,
+      "fatigue": 0.2,
+      "cough": 0.5,
+      "sore_throat": 0.8,
+      "loss_of_smell": 0.5,
+      "runny_nose": 0.8,
+      "sneezing": 0.8,
+      "blocked_nose": 0.8,
+      "headache": 0.5,
+      "body_aches": 0.5
+    }
+  }
+}
