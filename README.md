@@ -72,7 +72,7 @@ clinical-decision-support-system/
 │
 ├── tests/
 │   └── test_cdss.py
-│
+├── requirements.txt
 └── README.md
 ```
 
@@ -559,7 +559,7 @@ cd clinical-decision-support-system
 ### Install Testing Dependency
 
 ```bash
-python -m pip install pytest
+python -m pip install -r requirements.txt
 ```
 
 The core reasoning system uses Python's standard library.
