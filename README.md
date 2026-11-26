@@ -116,6 +116,8 @@ Bayesian ranking is conditional and is only performed when at least two eligible
 
 ## 6. Knowledge Representation
 
+The symptom relationships used in the knowledge base were informed by publicly available HSE health information.
+
 The knowledge base is stored in JSON, separating domain knowledge from the reasoning engine.
 
 It contains:
