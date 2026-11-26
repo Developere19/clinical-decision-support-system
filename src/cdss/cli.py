@@ -1,6 +1,6 @@
 from integration import run_cdss
 from knowledge_base import load_knowledge_base
-from explanation import explain_result
+
 
 
 def parse_symptoms(raw_text):
@@ -85,10 +85,7 @@ def main():
         absent_facts=valid_absent
     )
 
-    explanation = explain_result(
-        result,
-        knowledge_base["rules"]
-    )
+    
 
     print("\nCandidate categories:")
 
@@ -114,8 +111,8 @@ def main():
 
     print("\nReasoning:")
 
-    if explanation["reasoning"]:
-        for line in explanation["reasoning"]:
+    if result["reasoning"]:
+        for line in result["reasoning"]:
             print("-", line)
     else:
         print("- No rules fired.")
