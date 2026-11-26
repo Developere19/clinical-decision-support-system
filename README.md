@@ -513,7 +513,6 @@ Relevant slides:
 - Slide 50: Conditional independence.
 - Slides 58-61: Joint and posterior probability calculations.
 - Slides 85-86: Reasoning under certainty and uncertainty.
-- Slide 87: Strengths and limitations.
 
 ## 9. Explanation Mechanism
 
