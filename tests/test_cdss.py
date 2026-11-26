@@ -244,3 +244,89 @@ def test_bayesian_ranking_for_overlap():
         ),
         4
     ) == 1.0
+
+
+def test_bayesian_ranking_two_respiratory_candidates():
+    result = run_cdss(
+        present_facts={
+            "fever",
+            "fatigue",
+            "cough",
+            "sore_throat",
+            "loss_of_smell"
+        },
+        absent_facts=set()
+    )
+
+    ranking = result["bayesian_ranking"]
+
+    assert len(ranking) == 2
+
+    assert {
+        item["category"]
+        for item in ranking
+    } == {
+        "influenza_like",
+        "covid_like"
+    }
+
+    assert ranking[0]["category"] == "covid_like"
+
+    assert ranking[0]["relative_score"] >= ranking[1]["relative_score"]
+
+    assert round(
+        sum(item["relative_score"] for item in ranking),
+        4
+    ) == 1.0
+
+
+def test_bayesian_ranking_uses_absent_symptoms():
+    present = {
+        "fever",
+        "fatigue",
+        "cough",
+        "sore_throat",
+        "loss_of_smell"
+    }
+
+    unknown_result = run_cdss(
+        present_facts=present,
+        absent_facts=set()
+    )
+
+    absent_result = run_cdss(
+        present_facts=present,
+        absent_facts={"runny_nose"}
+    )
+
+    unknown_scores = {
+        item["category"]: item["relative_score"]
+        for item in unknown_result["bayesian_ranking"]
+    }
+
+    absent_scores = {
+        item["category"]: item["relative_score"]
+        for item in absent_result["bayesian_ranking"]
+    }
+
+    assert absent_scores["influenza_like"] > unknown_scores["influenza_like"]
+
+    assert absent_scores["covid_like"] < unknown_scores["covid_like"]
+
+
+def test_bayesian_ranking_skipped_for_single_candidate():
+    result = run_cdss(
+        present_facts={
+            "fever",
+            "fatigue",
+            "cough",
+            "sore_throat"
+        },
+        absent_facts=set()
+    )
+
+    assert result["candidate_categories"] == [
+        "influenza_like"
+    ]
+
+    assert result["bayesian_ranking"] == []
