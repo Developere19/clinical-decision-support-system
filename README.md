@@ -310,15 +310,32 @@ This assumption simplifies the probability calculations. However, symptoms may b
 
 A joint probability distribution represents the probability of multiple events occurring together.
 
-Following the medical example introduced in Topic 9, the joint probability of disease, fever and cough can be calculated as:
+The CDSS calculates an unnormalised score for each eligible illness category by multiplying its prior probability by the conditional probabilities of the observed symptoms.
 
-$$
-P(D,F,C) = P(D)P(F|D)P(C|D)
-$$
+For example, the joint probability of influenza-like illness, fever and fatigue is calculated as:
 
-The CDSS applies the same principle by multiplying the prior probability of an illness category by the conditional probabilities of the reported symptoms.
+```math
+P(I,F,T)=P(I)P(F|I)P(T|I)
+```
 
-The resulting value represents an unnormalised score for that illness category under the model.
+Where:
+
+- I represents influenza-like illness.
+- F represents fever.
+- T represents fatigue.
+
+Using the values defined in `bayesian_config.json`:
+
+```math
+P(I,F,T)=0.333333 \times 0.8 \times 0.8
+```
+
+```math
+P(I,F,T)\approx0.213333
+```
+
+The resulting value represents an unnormalised score under the model. This score is subsequently normalised against the scores of other eligible illness categories.
+
 
 ### 8.7 Handling Present, Absent and Unknown Symptoms
 
