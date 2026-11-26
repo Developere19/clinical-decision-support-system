@@ -207,39 +207,70 @@ The system uses an AIMA-inspired representation of states, actions and transitio
 
 ## 8. Bayesian Reasoning
 
-The Bayesian component addresses uncertainty when overlapping symptoms produce multiple respiratory candidates.
+### 8.1 Reasoning Under Uncertainty
 
-Bayesian ranking supports:
+In medical reasoning, the same symptoms can have multiple possible explanations. For example, fever, fatigue and cough may occur across several respiratory illness categories.
+
+Rule-based reasoning identifies possible illness categories based on known facts. However, when multiple categories are inferred, the rules alone do not provide a numerical ranking.
+
+Bayesian reasoning addresses this uncertainty by combining prior probabilities with observed symptom evidence.
+
+The Bayesian component supports three overlapping respiratory categories:
 
 - Influenza-like illness
 - COVID-like illness
 - Common cold-like illness
 
-The Bayesian module does not independently generate illness categories. It ranks eligible candidates already identified by forward chaining.
+Bayesian reasoning is applied only when forward chaining identifies two or more of these categories.
 
-### 8.1 Prior Probabilities
+### 8.2 Bayes' Theorem
 
-Equal prior probabilities are assigned to the three respiratory categories.
+Bayes' theorem allows an initial belief to be updated when new evidence becomes available.
 
-| Category | Prior Probability |
+The formula introduced in Topic 9: Reasoning under Uncertainty is:
+
+$$
+P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+$$
+
+| Term | Name | Meaning |
+| --- | --- | --- |
+| $P(A)$ | Prior | Initial probability before observing evidence. |
+| $P(B\|A)$ | Likelihood | Probability of observing the evidence given the hypothesis. |
+| $P(B)$ | Evidence | Overall probability of observing the evidence under the model. |
+| $P(A\|B)$ | Posterior | Updated probability after observing the evidence. |
+
+In the CDSS, the hypothesis represents an illness category and the evidence represents the reported symptoms.
+
+### 8.3 Prior Probabilities
+
+Prior probabilities represent the initial probabilities assigned to illness categories before symptom evidence is considered.
+
+The system uses equal prior probabilities:
+
+| Illness Category | Prior Probability |
 | --- | ---: |
 | Influenza-like illness | 0.333333 |
 | COVID-like illness | 0.333333 |
 | Common cold-like illness | 0.333333 |
 
-Equal priors are used as a neutral educational modelling assumption because the system does not contain population prevalence data.
+Equal priors are used as an educational modelling assumption because the system does not contain real-world disease prevalence data.
 
-### 8.2 Symptom Likelihoods
+### 8.4 Conditional Probability Tables
 
-An illustrative three-level likelihood scale is used.
+Conditional probability describes the probability of an event occurring given that another event is known.
 
-| Value | Interpretation |
+In the CDSS, conditional probabilities represent the likelihood of observing a particular symptom given an illness category.
+
+The system uses the following illustrative probability scale:
+
+| Probability | Interpretation |
 | --- | --- |
 | 0.8 | Strong symptom association |
 | 0.5 | Moderate symptom association |
 | 0.2 | Weak symptom association |
 
-The configured values are:
+The conditional probabilities are stored in `data/bayesian_config.json`.
 
 | Symptom | Influenza-like | COVID-like | Common cold-like |
 | --- | ---: | ---: | ---: |
@@ -254,68 +285,96 @@ The configured values are:
 | Headache | 0.8 | 0.5 | 0.5 |
 | Body aches | 0.8 | 0.5 | 0.5 |
 
-These values are illustrative modelling parameters, not statistically estimated medical probabilities.
+These values are project-specific educational modelling assumptions rather than clinically validated probabilities.
 
-The scale provides a transparent mechanism for demonstrating how different evidence strengths affect candidate rankings.
+### 8.5 Conditional Independence
 
-### 8.3 Bayesian Calculation
+Conditional independence allows the probability of multiple observations to be calculated by multiplying their individual conditional probabilities when the independence assumption holds.
 
-The implementation follows a Naive Bayes-style scoring approach.
-
-For each eligible illness category:
-
-```text
-Score =
-    Prior
-    × Product of present symptom likelihoods
-    × Product of absent symptom complementary likelihoods
-```
-
-Mathematically:
+For example, the lecture material considers disease, fever and cough:
 
 $$
-S(C) = P(C)
-\prod_{s \in E^+} P(s \mid C)
-\prod_{s \in E^-} (1-P(s \mid C))
+P(F,C|D) = P(F|D)P(C|D)
 $$
 
 Where:
 
-- C represents an eligible illness category.
-- P(C) represents its prior probability.
-- E+ represents reported present symptoms.
-- E- represents explicitly absent symptoms.
+- D represents disease.
+- F represents fever.
+- C represents cough.
 
-Only symptoms with configured likelihoods contribute to the calculation.
+The CDSS applies the same assumption when combining multiple symptoms given an illness category.
 
-The resulting scores are normalised across eligible candidates:
+However, symptoms may remain dependent in real medical situations. This represents a limitation of the simplified model.
+
+### 8.6 Joint Probability Distribution
+
+A joint probability distribution represents the probability of multiple events occurring together.
+
+Following the medical example introduced in Topic 9, the joint probability of disease, fever and cough can be calculated as:
 
 $$
-R(C_i) =
-\frac{S(C_i)}
-{\sum_j S(C_j)}
+P(D,F,C) = P(D)P(F|D)P(C|D)
 $$
 
-Candidates are then sorted in descending order of their relative scores.
+The CDSS applies the same principle by multiplying the prior probability of an illness category by the conditional probabilities of the reported symptoms.
 
-### 8.4 Handling Symptom Evidence
+The resulting value represents an unnormalised score for that illness category under the model.
 
-| Symptom State | Bayesian Treatment |
+### 8.7 Handling Present, Absent and Unknown Symptoms
+
+The system distinguishes between symptoms that are present, explicitly absent or unknown.
+
+For explicitly absent symptoms, the complement rule is applied:
+
+$$
+P(\neg A) = 1-P(A)
+$$
+
+When applied to conditional probability:
+
+$$
+P(\neg S|D) = 1-P(S|D)
+$$
+
+| Symptom State | Calculation |
 | --- | --- |
-| Present | Multiply by the configured likelihood. |
-| Absent | Multiply by one minus the configured likelihood. |
-| Unknown | Exclude from the calculation. |
-| No configured likelihood | Exclude from the calculation. |
+| Present | Multiply by the conditional probability of the symptom. |
+| Absent | Multiply by one minus the conditional probability. |
+| Unknown | Exclude the symptom from the calculation. |
+| No configured probability | Exclude the symptom from the calculation. |
 
-For example, if the likelihood of a symptom is 0.8:
+For example, if the conditional probability of fever given an illness category is 0.8, the probability of fever being absent is:
 
-```text
-Present symptom: multiply by 0.8
-Absent symptom:  multiply by 0.2
-Unknown symptom: no contribution
-```
+$$
+1-0.8=0.2
+$$
 
-### 8.5 Worked Bayesian Example
+Unknown symptoms are not automatically treated as absent.
+
+### 8.8 Posterior Probability Calculation
+
+Bayes' theorem updates prior probabilities using observed evidence.
+
+The system first calculates an unnormalised score for each eligible respiratory candidate.
+
+Each score is then divided by the sum of all eligible candidate scores.
+
+For three eligible respiratory candidates:
+
+$$
+R_{\text{influenza}} =
+\frac{S_{\text{influenza}}}
+{S_{\text{influenza}}+S_{\text{COVID}}+S_{\text{cold}}}
+$$
+
+The same calculation is applied to the remaining candidates.
+
+The resulting scores sum to approximately 1, subject to rounding, and are sorted from highest to lowest.
+
+Because the calculation is restricted to respiratory candidates identified by forward chaining, the outputs are presented as relative ranking scores rather than clinical diagnostic probabilities.
+
+### 8.9 Worked Bayesian Example
 
 Consider the following reported symptoms:
 
@@ -324,15 +383,15 @@ fever, fatigue, cough, sore_throat,
 loss_of_smell, runny_nose, sneezing
 ```
 
-Forward chaining identifies:
+Forward chaining identifies three possible illness categories:
 
 - Influenza-like illness
 - COVID-like illness
 - Common cold-like illness
 
-The Bayesian scores are calculated using the configured likelihoods.
+The Bayesian component calculates a score for each candidate using its prior probability and the conditional probabilities of the reported symptoms.
 
-#### Influenza-like Illness
+#### Step 1: Influenza-like Illness
 
 ```text
 Score = 0.333333 × 0.8 × 0.8 × 0.8
@@ -341,7 +400,7 @@ Score = 0.333333 × 0.8 × 0.8 × 0.8
 Score ≈ 0.00068267
 ```
 
-#### COVID-like Illness
+#### Step 2: COVID-like Illness
 
 ```text
 Score = 0.333333 × 0.8 × 0.8 × 0.8
@@ -350,7 +409,7 @@ Score = 0.333333 × 0.8 × 0.8 × 0.8
 Score ≈ 0.00426666
 ```
 
-#### Common Cold-like Illness
+#### Step 3: Common Cold-like Illness
 
 ```text
 Score = 0.333333 × 0.2 × 0.2 × 0.5
@@ -359,17 +418,103 @@ Score = 0.333333 × 0.2 × 0.2 × 0.5
 Score ≈ 0.00170667
 ```
 
-After normalisation:
+#### Step 4: Calculate the Total Score
 
-| Rank | Candidate | Relative Score |
+```text
+Total = 0.00068267 + 0.00426666 + 0.00170667
+
+Total ≈ 0.006656
+```
+
+#### Step 5: Normalise the Scores
+
+```text
+Influenza-like = 0.00068267 / 0.006656
+               ≈ 0.1026
+
+COVID-like = 0.00426666 / 0.006656
+           ≈ 0.6410
+
+Common cold-like = 0.00170667 / 0.006656
+                 ≈ 0.2564
+```
+
+#### Step 6: Final Bayesian Ranking
+
+| Rank | Illness Category | Relative Score |
 | --- | --- | ---: |
 | 1 | COVID-like illness | 0.6410 |
 | 2 | Common cold-like illness | 0.2564 |
 | 3 | Influenza-like illness | 0.1026 |
 
-This example demonstrates how Bayesian reasoning ranks candidates that the rule-based system alone cannot distinguish by score.
+Under the project's modelling assumptions, COVID-like illness receives the highest relative score for this fictional symptom combination.
 
-The relative scores are not clinically validated diagnostic probabilities.
+This demonstrates how multiple observations can be combined to rank possible explanations under uncertainty.
+
+### 8.10 Integration of Logical and Probabilistic Reasoning
+
+Topic 9 discusses how reasoning under certainty and reasoning under uncertainty can be combined within an intelligent system.
+
+The CDSS demonstrates this integration through two reasoning components:
+
+| Reasoning Component | Purpose |
+| --- | --- |
+| Rule-based reasoning | Applies IF-THEN rules to derive facts and identify possible illness categories. |
+| Bayesian reasoning | Uses prior and conditional probabilities to rank overlapping respiratory candidates. |
+
+The integrated reasoning process is:
+
+```text
+User symptoms
+      |
+      v
+Forward-chaining inference
+      |
+      v
+Candidate illness categories
+      |
+      v
+Bayesian ranking (where applicable)
+      |
+      v
+Final results and explanations
+```
+
+Bayesian reasoning does not introduce new illness categories. It ranks eligible respiratory candidates identified by the rule-based inference engine.
+
+### 8.11 Strengths and Limitations
+
+#### Strengths
+
+- Supports reasoning with incomplete information.
+- Combines multiple observations.
+- Updates relative scores using symptom evidence.
+- Complements rule-based reasoning.
+- Provides transparent probability calculations.
+
+#### Limitations
+
+- Conditional probabilities are illustrative rather than clinically validated.
+- Symptoms are assumed to be conditionally independent.
+- Bayesian ranking is limited to three respiratory categories.
+- The system has not been evaluated using real patient records.
+- Relative ranking scores do not establish clinical diagnostic accuracy.
+
+### 8.12 Lecture Material
+
+The theoretical approach is based on the following AINL3001 lecture material:
+
+**TU Dublin (2026). Knowledge-Driven AI, Topic 9: Reasoning under Uncertainty.**
+
+Relevant slides:
+
+- Slides 12-18: Probability rules and conditional probability.
+- Slides 27-35: Bayes' theorem.
+- Slides 45-46: Conditional probability tables.
+- Slide 50: Conditional independence.
+- Slides 58-61: Joint and posterior probability calculations.
+- Slides 85-86: Reasoning under certainty and uncertainty.
+- Slide 87: Strengths and limitations.
 
 ## 9. Explanation Mechanism
 
