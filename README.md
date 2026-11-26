@@ -586,7 +586,7 @@ Present symptoms:
 fever, fatigue, cough, sore throat,
 loss of smell, runny nose, sneezing
 
-Absent symptoms:
+Absent symptoms (symptoms the user confirms they are not experiencing):
 ```
 
 ### Expected Candidate Categories
