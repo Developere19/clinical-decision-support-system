@@ -732,37 +732,13 @@ Potential extensions include:
 
 ## 16. Team Contributions
 
-### Hamza Zeeshan
+| **Team Member** | **Responsibilities and Contributions** |
+| --- | --- |
+| Hamza Zeeshan | GitHub management, knowledge-base development, IF-THEN rules, forward chaining, knowledge-base validation, system integration, Bayesian configuration and integration, CLI integration and end-to-end testing. |
+| Mohammed Younis | Bayesian ranking module, command-line interface, explanation mechanism, evaluation framework and automated testing. |
 
-- GitHub repository setup and management.
-- Knowledge base development.
-- IF-THEN rule representation.
-- Knowledge base validation.
-- Forward-chaining inference engine.
-- Present, absent and unknown symptom reasoning.
-- System integration.
-- Bayesian configuration and integration.
-- Integration of Bayesian output into the CLI.
-- Refinement and expansion of automated tests.
-- End-to-end system testing and debugging.
-
-### Mohammed Younis
-
-- Bayesian ranking module.
-- Command-line interface.
-- Explanation mechanism.
-- Evaluation framework.
-- Initial automated Pytest suite.
-- Component testing and debugging.
-
-### Shared Responsibilities
-
-- System design.
-- Reasoning approach discussions.
-- Evaluation planning.
-- Integration testing.
-- Project documentation.
-- Final presentation and demonstration.
+Both team members contributed to system design, debugging,
+documentation, evaluation and testing.
 
 ## 17. AI Assistance Acknowledgement
 
