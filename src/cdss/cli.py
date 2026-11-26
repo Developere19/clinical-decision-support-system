@@ -73,8 +73,10 @@ def main():
     contradiction = valid_present.intersection(valid_absent)
 
     if contradiction:
-        print("\nError: the following symptoms were entered as both "
-              "present and absent:")
+        print(
+            "\nError: the following symptoms were entered as both "
+            "present and absent:"
+        )
         print(", ".join(sorted(contradiction)))
         return
 
@@ -96,6 +98,20 @@ def main():
     else:
         print("- No category could be inferred from the supplied facts.")
 
+    print("\nBayesian ranking:")
+
+    if result["bayesian_ranking"]:
+        for position, item in enumerate(
+            result["bayesian_ranking"],
+            start=1
+        ):
+            print(
+                f"{position}. {item['category']} "
+                f"(relative score: {item['relative_score']})"
+            )
+    else:
+        print("- Bayesian ranking not required.")
+
     print("\nReasoning:")
 
     if explanation["reasoning"]:
@@ -104,8 +120,10 @@ def main():
     else:
         print("- No rules fired.")
 
-    print("\nEducational prototype only. "
-          "Do not use this output as a medical diagnosis.")
+    print(
+        "\nEducational prototype only. "
+        "Do not use this output as a medical diagnosis."
+    )
 
 
 if __name__ == "__main__":
