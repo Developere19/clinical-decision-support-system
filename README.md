@@ -782,4 +782,13 @@ The system must not be used to make real-world medical decisions.
 
 ---
 
+## 19. References
+
+### Medical Knowledge Sources
+
+- Health Service Executive (HSE). [Flu: Symptoms and diagnosis](https://www2.hse.ie/conditions/flu/symptoms-diagnosis/).
+- Health Service Executive (HSE). [Common cold](https://www.hse.ie/conditions/common-cold/).
+- Health Service Executive (HSE). [COVID-19: Symptoms overview](https://www2.hse.ie/conditions/covid19/symptoms/overview/).
+- Health Service Executive (HSE). [Diarrhoea and vomiting](https://www2.hse.ie/conditions/diarrhoea-vomiting/).
+
 **Developed for AINL3001 Knowledge-Driven Artificial Intelligence at TU Dublin.**
