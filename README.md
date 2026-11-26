@@ -498,25 +498,8 @@ Final results and explanations
 
 Bayesian reasoning does not introduce new illness categories. It ranks eligible respiratory candidates identified by the rule-based inference engine.
 
-### 8.11 Strengths and Limitations
 
-#### Strengths
-
-- Supports reasoning with incomplete information.
-- Combines multiple observations.
-- Updates relative scores using symptom evidence.
-- Complements rule-based reasoning.
-- Provides transparent probability calculations.
-
-#### Limitations
-
-- Conditional probabilities are illustrative rather than clinically validated.
-- Symptoms are assumed to be conditionally independent.
-- Bayesian ranking is limited to three respiratory categories.
-- The system has not been evaluated using real patient records.
-- Relative ranking scores do not establish clinical diagnostic accuracy.
-
-### 8.12 Lecture Material
+### 8.11 Lecture Material
 
 The theoretical approach is based on the following AINL3001 lecture material:
 
