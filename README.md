@@ -99,20 +99,19 @@ clinical-decision-support-system/
 
 ```mermaid
 flowchart TD
-    A[User input via CLI] --> B[Input validation]
-    B --> C[System integration: run_cdss]
-    V[Fictional evaluation cases] --> C
-    C --> D[Forward-chaining inference]
-    K[JSON knowledge base] --> D
-    D --> E[Candidate illness categories]
-    E --> F{Two or more eligible respiratory candidates?}
-    F -->|Yes| G[Bayesian ranking]
-    P[Bayesian configuration] --> G
-    F -->|No| H[Retain rule-based candidates]
-    D --> I[Rule explanation mechanism]
-    G --> J[Integrated result]
-    H --> J
-    I --> J
+    A[User Input] --> B[Input Validation]
+    B --> C[Forward-Chaining Engine]
+    K[JSON Knowledge Base] --> C
+    C --> D[Candidate Illness Categories]
+    D --> E{Two or More Eligible Respiratory Candidates?}
+    E -->|Yes| F[Bayesian Ranking]
+    P[Bayesian Configuration] --> F
+    E -->|No| G[Retain Rule-Based Results]
+    F --> H[System Integration]
+    G --> H
+    C --> I[Explanation Mechanism]
+    I --> H
+    H --> J[Final Output]
 ```
 
 The rule-based component identifies possible illness categories before Bayesian reasoning is applied.
