@@ -206,3 +206,41 @@ def test_explanation_handles_absent_symptom_wording():
     )
 
     assert "cough was explicitly absent" in explanations[0]
+
+
+def test_bayesian_ranking_for_overlap():
+    result = run_cdss(
+        present_facts={
+            "fever",
+            "fatigue",
+            "cough",
+            "sore_throat",
+            "loss_of_smell",
+            "runny_nose",
+            "sneezing"
+        },
+        absent_facts=set()
+    )
+
+    ranking = result["bayesian_ranking"]
+
+    assert len(ranking) == 3
+
+    assert ranking[0]["category"] == "covid_like"
+
+    assert {
+        item["category"]
+        for item in ranking
+    } == {
+        "common_cold_like",
+        "covid_like",
+        "influenza_like"
+    }
+
+    assert round(
+        sum(
+            item["relative_score"]
+            for item in ranking
+        ),
+        4
+    ) == 1.0
