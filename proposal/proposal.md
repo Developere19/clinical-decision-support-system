@@ -4,97 +4,88 @@
 
 **TU Dublin | BSc Data Science and Artificial Intelligence**
 
-Revised following proposal feedback to clarify project scope, reasoning complexity, Bayesian integration and evaluation.
+Revised following proposal feedback and implementation progress to clarify scope, reasoning complexity, Bayesian integration, evaluation and team contributions.
 
 ## 1. Team Information
 
 **Group Name:** Group A
 
 | Name | Student Number | GitHub Username |
-|---|---|---|
+| --- | --- | --- |
 | Hamza Zeeshan | C24333116 | Developere19 |
 | Mohammed Younis | C24372973 | Mohammedyounis18 |
 
 ## 2. Problem Description
 
-Many illnesses share similar symptoms, making it difficult to distinguish possible illness patterns from symptoms alone. Fever, cough and fatigue, for example, can occur across several respiratory illnesses. Users may also provide incomplete information, and some symptom combinations may fit more than one category.
+Many illnesses share similar symptoms, making possible illness patterns difficult to distinguish from symptoms alone. Fever, cough and fatigue, for example, can occur across several respiratory illnesses. Users may also provide incomplete information, and some symptom combinations may match more than one category.
 
-Our project will develop an educational Clinical Decision Support System in Python. Users will enter symptoms through a simple command-line interface. The system will use rule-based reasoning to identify possible illness categories and Bayesian reasoning to rank selected overlapping respiratory categories while explaining how its conclusions were reached.
+Our project develops an educational Clinical Decision Support System in Python. Users enter symptoms through a command-line interface. The system uses rule-based reasoning to identify possible illness categories and Bayesian reasoning to rank overlapping respiratory candidates while explaining how conclusions were reached.
 
-The knowledge base will contain approximately six illness categories, 18-20 symptoms, 8-10 intermediate concepts and 35-45 IF-THEN rules. Planned categories include influenza-like, COVID-like, common cold-like, allergy-like, strep-throat-like and gastroenteritis-like illness.
+The knowledge base contains six illness categories, 20 symptoms, 13 intermediate concepts and 35 IF-THEN rules. The categories are influenza-like, COVID-like, common-cold-like, allergy-like, strep-throat-like and gastroenteritis-like illness.
 
-The system is for educational demonstration only. It will not diagnose conditions, prescribe medication or replace professional medical advice. All evaluation cases will be fictional.
+The system is for educational demonstration only. It does not diagnose conditions, prescribe medication or replace professional medical advice. All evaluation cases are fictional.
 
 ## 3. Proposed AI Approach
 
-The project will combine knowledge representation, rule-based reasoning, forward chaining and Bayesian reasoning under uncertainty.
+The project combines knowledge representation, forward chaining and Bayesian reasoning.
 
 ### Knowledge Representation
 
-Symptoms and derived concepts will be represented as facts. Medical relationships will be stored as structured IF-THEN rules separately from the main program logic.
+Symptoms and derived concepts are represented as facts. Medical relationships are stored as structured IF-THEN rules in JSON, separate from the main Python logic.
 
-The knowledge base will support multi-stage reasoning rather than only direct symptom matching. For example:
+The knowledge base supports multi-stage reasoning. For example:
 
 - IF fever AND body aches THEN systemic symptoms.
 - IF cough AND sore throat THEN respiratory symptoms.
 - IF systemic symptoms AND respiratory symptoms THEN influenza-like illness.
 
-This allows one rule to derive a fact that can activate another rule.
-
-Negative information will only be used when the user explicitly reports that a symptom is absent. Unreported symptoms will remain unknown.
+The system distinguishes between symptoms that are present, explicitly absent or unknown. Negative information is only used when the user explicitly reports that a symptom is absent.
 
 ### Forward-Chaining Inference
 
-The inference engine will start with reported symptoms as known facts and repeatedly apply rules whose conditions are satisfied.
+The inference engine starts with reported symptoms as known facts and repeatedly applies rules whose conditions are satisfied. New conclusions are added to the knowledge state and may activate later rules. Reasoning stops when no further facts can be derived.
 
-New conclusions will be added to the knowledge state until no further facts can be derived. The engine will also record which rules fired and which intermediate facts were produced, allowing the reasoning process to be explained.
+The engine records fired rules and derived facts so the reasoning process can be explained.
 
 ### Bayesian Reasoning
 
-Bayesian reasoning will be applied to three overlapping respiratory categories: influenza-like illness, COVID-like illness and common cold-like illness.
+Bayesian reasoning is applied to influenza-like, COVID-like and common-cold-like categories.
 
-The Bayesian module will use predefined prior probabilities and symptom likelihoods to demonstrate how evidence changes the relative likelihood of each category. Probabilities will be documented and identified as educational values where illustrative.
-
-The rule-based and Bayesian components will be integrated:
+The Bayesian component is integrated with the rule-based system:
 
 **User symptoms → Forward chaining → Candidate categories → Bayesian ranking → Explanation**
 
-Forward chaining will identify possible categories and derived facts. When overlapping respiratory categories are identified, the Bayesian module will rank those candidates using the available evidence.
+Forward chaining first identifies possible categories. If two or more respiratory categories are inferred, the Bayesian module ranks those candidates using the available evidence.
+
+Equal priors are used so the prototype does not assume real-world disease prevalence. Symptom likelihoods use an illustrative scale of 0.8 for strong, 0.5 for moderate and 0.2 for weak associations. These are educational modelling assumptions rather than clinically validated probabilities. Bayesian outputs are presented as relative ranking scores, not diagnostic probabilities.
 
 ## 4. System Design
 
-The system will use a modular Python architecture with five main components:
+The system uses a modular Python architecture with five main components:
 
-1. **User Interface** - collects and validates symptoms.
+1. **User Interface** - collects, normalises and validates symptoms.
 2. **Knowledge Base** - stores symptoms, intermediate concepts and IF-THEN rules.
-3. **Forward-Chaining Engine** - derives new facts and candidate illness categories.
-4. **Bayesian Module** - ranks selected overlapping respiratory categories.
-5. **Integration and Explanation Module** - combines and explains the results.
+3. **Forward-Chaining Engine** - derives facts and candidate illness categories.
+4. **Bayesian Module** - ranks overlapping respiratory candidates.
+5. **Integration and Explanation** - combines outputs and presents readable reasoning.
 
-The system will follow an AIMA-inspired structure. The state is the set of known and derived facts. An action is the application of an applicable rule. A transition occurs when a rule conclusion is added to the knowledge state. Reasoning stops when no rule can derive a new fact.
+The design follows an AIMA-inspired structure. The state is the set of known and derived facts. An action is the application of an applicable rule. A transition occurs when a rule conclusion is added. Reasoning stops at a fixed point when no new facts can be derived.
 
 ## 5. Evaluation Plan
 
-The system will be evaluated using approximately 18 fictional test cases covering:
+The system is evaluated using eight fictional cases covering all six illness categories, multi-stage forward chaining, overlapping respiratory symptoms, explicit absent symptoms, incomplete information and cases where no rule applies.
 
-- clear illness-category matches;
-- overlapping respiratory symptoms;
-- incomplete information;
-- multiple possible categories;
-- cases where no rule applies;
-- multi-step forward chaining.
+Automated `pytest` tests separately verify knowledge-base validation, illness-category inference, present/absent/unknown handling, explanation output, overlapping candidates, Bayesian ranking and integration between components.
 
-Relevant respiratory cases will be compared using rule-based reasoning, Bayesian reasoning and the combined system.
+The current implementation passes **8/8 evaluation cases** and **14/14 automated tests**.
 
-Automated `pytest` tests will verify the knowledge base, chained inference, expected conclusions, Bayesian calculations and integration between the reasoning components.
+Evaluation will also discuss limitations, especially the simplified educational nature of the rules and Bayesian likelihood values.
 
-The evaluation will compare expected and actual outputs and discuss limitations, including the simplified educational nature of the rules and probabilities.
+## 6. Team Contributions
 
-## 6. Planned Contributions
+| Team Member | Responsibilities |
+| --- | --- |
+| **Hamza Zeeshan** | GitHub repository management, knowledge-base development, IF-THEN rules, forward-chaining engine, present/absent/unknown reasoning, knowledge-base validation, system integration, Bayesian integration and end-to-end testing |
+| **Mohammed Younis** | Bayesian ranking module, command-line interface, explanation mechanism, evaluation framework and automated testing |
 
-| Team Member | Planned Responsibilities |
-|---|---|
-| Hamza Zeeshan | GitHub repository management, knowledge-base development, IF-THEN rule representation, forward-chaining inference engine and system integration |
-| Mohammed Younis | Bayesian reasoning module, command-line interface, explanation mechanism, evaluation and testing |
-
-Both team members will contribute to system design, documentation, evaluation and the final presentation.
+Both team members contribute to system design, documentation, evaluation and the final presentation.
