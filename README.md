@@ -289,23 +289,22 @@ These values are project-specific educational modelling assumptions rather than 
 
 ### 8.5 Conditional Independence
 
-Conditional independence allows the probability of multiple observations to be calculated by multiplying their individual conditional probabilities when the independence assumption holds.
+The Bayesian component assumes that symptoms are conditionally independent given an illness category. This allows multiple symptom likelihoods to be multiplied when calculating candidate scores.
 
-For example, the lecture material considers disease, fever and cough:
+For example, when calculating the score for influenza-like illness using fever and fatigue, the system combines their configured conditional probabilities:
 
-$$
-P(F,C|D) = P(F|D)P(C|D)
-$$
+```math
+P(fever, fatigue \mid influenza) =
+P(fever \mid influenza) \times P(fatigue \mid influenza)
+```
 
-Where:
+Using the probabilities defined in our Bayesian configuration:
 
-- D represents disease.
-- F represents fever.
-- C represents cough.
+```math
+0.8 \times 0.8 = 0.64
+```
 
-The CDSS applies the same assumption when combining multiple symptoms given an illness category.
-
-However, symptoms may remain dependent in real medical situations. This represents a limitation of the simplified model.
+This assumption simplifies the probability calculations. However, symptoms may be correlated in real medical situations, which represents a limitation of the model.
 
 ### 8.6 Joint Probability Distribution
 
